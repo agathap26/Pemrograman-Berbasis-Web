@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking Pengiriman - SITTA</title>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+    <header>
+        <h1>Tracking Pengiriman Bahan Ajar</h1>
+        <p>Sistem Informasi Bahan Ajar Universitas Terbuka</p>
+    </header>
+
+    <main>
+        <h2>Cek Status Pengiriman</h2>
+
+        <!-- Form pencarian nomor Delivery Order -->
+        <form id="formTracking">
+            <label for="nomorDO">Nomor Delivery Order:</label>
+
+            <input
+                type="text"
+                id="nomorDO"
+                placeholder="Masukkan nomor DO"
+                required
+            >
+
+            <button type="submit">Cari</button>
+        </form>
+
+        <hr>
+
+        <!-- Tempat menampilkan hasil pencarian -->
+        <section id="hasilTracking" aria-live="polite"></section>
+
+        <p>
+            <a href="dashboard.html">Kembali ke Dashboard</a>
+        </p>
+    </main>
+
+    <!-- Menghubungkan data dan JavaScript -->
+    <script src="js/data.js"></script>
+    <script src="js/tracking.js"></script>
+
+</body>
+</html>

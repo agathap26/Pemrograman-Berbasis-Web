@@ -1,0 +1,11 @@
+<script type="text/x-template" id="tpl-badge">
+  <div class="status-wrap" @mouseenter="hovered = true" @mouseleave="hovered = false">
+    <span v-if="qty === 0" class="status status-empty" tabindex="0" @focus="hovered = true" @blur="hovered = false">Kosong</span>
+    <span v-else-if="qty < safety" class="status status-low" tabindex="0" @focus="hovered = true" @blur="hovered = false">Menipis</span>
+    <span v-else class="status status-safe" tabindex="0" @focus="hovered = true" @blur="hovered = false">Aman</span>
+    <div v-show="hovered" class="status-tooltip" role="tooltip">
+      <strong>Catatan bahan ajar:</strong>
+      <div v-html="safeNote"></div>
+    </div>
+  </div>
+</script>

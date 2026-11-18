@@ -1,0 +1,178 @@
+
+/* Mengatur tampilan dasar seluruh halaman */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fb;
+    color: #253247;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Mengatur bagian judul halaman */
+header {
+    background-color: #075b9a;
+    color: white;
+    padding: 20px 35px;
+}
+
+/* Mengatur ukuran judul */
+h1 {
+    margin: 0;
+}
+
+h2, h3 {
+    color: #075b9a;
+}
+
+/* Mengatur area konten utama */
+main {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 25px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Mengatur menu navigasi */
+nav {
+    background-color: #e1edf7;
+    padding: 15px 35px;
+}
+
+nav a {
+    color: #075b9a;
+    text-decoration: none;
+    margin-right: 15px;
+}
+
+/* Mengatur formulir */
+input, select {
+    padding: 9px;
+    border: 1px solid #b6c4d2;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+/* Mengatur tombol */
+button {
+    background-color: #075b9a;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+/* Memberikan efek ketika tombol disentuh mouse */
+button:hover {
+    background-color: #034574;
+}
+
+/* Mengatur tampilan tabel stok */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ccd6e0;
+    padding: 12px;
+    text-align: left;
+}
+
+/* Mengatur warna judul kolom */
+th {
+    background-color: #075b9a;
+    color: white;
+}
+
+/* Memberikan warna selang-seling pada baris tabel */
+tbody tr:nth-child(even) {
+    background-color: #eef4fa;
+}
+
+/* Mengatur gambar sampul buku */
+td img {
+    width: 80px;
+    height: 110px;
+    object-fit: contain;
+}
+
+/* Mengatur tampilan pop-up */
+dialog {
+    border: none;
+    border-radius: 10px;
+    padding: 25px;
+    max-width: 400px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Menggelapkan latar belakang saat pop-up terbuka */
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Mengatur footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #667085;
+}
+
+/* Menyesuaikan tampilan untuk layar kecil */
+@media (max-width: 768px) {
+    main {
+        margin: 15px;
+        padding: 15px;
+        overflow-x: auto;
+    }
+
+    nav {
+        padding: 15px;
+    }
+
+    table {
+        font-size: 13px;
+    }
+}
+
+/* Mengatur ukuran dan posisi kotak Login */
+.login-container {
+    max-width: 420px;
+    margin: 60px auto;
+    padding: 35px;
+}
+
+/* Mengatur jarak antar kolom formulir */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Mengatur label Email dan Password */
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+/* Mengatur ukuran kolom Email dan Password */
+.form-group input {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 12px;
+}
+
+/* Mengatur tombol Login agar memenuhi lebar form */
+#formLogin button {
+    width: 100%;
+    margin: 10px 0;
+}
+
+/* Mengatur tampilan tombol Lupa Password dan Daftar */
+.login-container > p:last-child {
+    text-align: center;
+}

@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login SITTA - Universitas Terbuka</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Bagian judul aplikasi -->
+    <header>
+        <h1>SITTA Universitas Terbuka</h1>
+        <p>Sistem Informasi Tiras dan Transaksi Bahan Ajar</p>
+    </header>
+
+    <!-- Bagian utama halaman Login -->
+    <main class="login-container">
+
+        <h2>Login Pengguna</h2>
+        <p>Silakan masuk menggunakan akun SITTA Anda.</p>
+
+        <!-- Form untuk memasukkan email dan password -->
+       <!-- Mencegah browser menawarkan pengisian otomatis -->
+        <form id="formLogin" autocomplete="off">
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email"
+                       placeholder="Masukkan email" 
+                       autocomplete="off" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password"
+                       placeholder="Masukkan password" 
+                       autocomplete="new-password" required>
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- Tombol untuk membuka pop-up -->
+        <p>
+            <button type="button" id="btnLupa">Lupa Password</button>
+            <button type="button" id="btnDaftar">Daftar</button>
+        </p>
+
+    </main>
+
+    <!-- Pop-up Lupa Password -->
+    <dialog id="modalLupa">
+        <h2>Lupa Password</h2>
+        <p>Silakan hubungi administrator SITTA untuk mengatur ulang password.</p>
+        <button type="button" id="tutupLupa">Tutup</button>
+    </dialog>
+
+    <!-- Pop-up Pendaftaran -->
+    <dialog id="modalDaftar">
+        <h2>Pendaftaran Akun</h2>
+        <p>Untuk membuat akun baru, silakan hubungi administrator Universitas Terbuka.</p>
+        <button type="button" id="tutupDaftar">Tutup</button>
+    </dialog>
+
+    <!-- Bagian bawah halaman -->
+    <footer>
+        <p>Universitas Terbuka - SITTA</p>
+    </footer>
+
+    <!-- Menghubungkan data pengguna dan JavaScript -->
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+
+</body>
+</html>

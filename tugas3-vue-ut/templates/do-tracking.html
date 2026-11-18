@@ -1,0 +1,74 @@
+<script type="text/x-template" id="tpl-tracking">
+  <div>
+    <div class="section-heading">
+      <div><h2>Tracking Delivery Order</h2><p>Cari berdasarkan Nomor DO atau NIM, lalu lihat progresnya.</p></div>
+      <button type="button" class="btn btn-primary" @click="$emit('new-order')">+ Buat DO Baru</button>
+    </div>
+    <div class="panel">
+      <h3>Pencarian Pengiriman</h3>
+      <form class="search-row" @submit.prevent="submitSearch">
+        <label>Cari berdasarkan
+          <select v-model="searchField" @change="clearSearch">
+            <option value="nomorDO">Nomor DO</option><option value="nim">NIM</option>
+          </select>
+        </label>
+        <label>Kata kunci
+          <input v-model.trim="query" type="search" :placeholder="searchField === 'nomorDO' ? 'Contoh: DO2025-0001' : 'Masukkan NIM'"
+            @keydown.enter.prevent="submitSearch" @keydown.esc.prevent="clearSearch">
+        </label>
+        <div class="search-actions"><button type="submit" class="btn btn-primary">Cari (Enter)</button>
+          <button type="button" class="btn btn-ghost" @click="clearSearch">Reset (Esc)</button></div>
+      </form>
+    </div>
+
+    <div class="tracking-grid">
+      <div class="panel">
+        <h3>Daftar Delivery Order</h3>
+        <p class="subtle">{{ matchingOrders.length }} hasil pencarian</p>
+        <div v-if="matchingOrders.length === 0" class="empty-state">Nomor DO / NIM tidak ditemukan.</div>
+        <button v-for="order in matchingOrders" :key="order.nomorDO" type="button"
+          class="order-summary" :class="{ selected: selectedDO === order.nomorDO }" @click="selectedDO = order.nomorDO">
+          <strong>{{ order.nomorDO }}</strong>
+          <span>{{ order.nama }} — {{ order.nim }}</span>
+          <small>{{ order.status }}</small>
+        </button>
+      </div>
+
+      <div class="panel" v-if="selectedOrder && matchingOrders.some(o => o.nomorDO === selectedDO)">
+        <div class="table-heading"><h3>Detail DO: {{ selectedOrder.nomorDO }}</h3><span>{{ selectedOrder.status }}</span></div>
+        <dl class="detail-grid">
+          <!-- Object v-for memakai name-based index: fieldName sebagai key. -->
+          <template v-for="(value, fieldName) in selectedMeta">
+            <dt :key="fieldName + '-label'">{{ fieldName }}</dt>
+            <dd :key="fieldName + '-value'">{{ value }}</dd>
+          </template>
+          <dt>Paket</dt><dd>{{ selectedOrder.paket }} — {{ packageName(selectedOrder.paket) }}</dd>
+          <dt>Tanggal Kirim</dt><dd>{{ selectedOrder.tanggalKirim | tanggalIndonesia }}</dd>
+          <dt>Total Harga</dt><dd><strong>{{ selectedOrder.total | rupiah }}</strong></dd>
+        </dl>
+        <label class="field-label">Perbarui status pengiriman
+          <select :value="selectedOrder.status" @change="updateStatus">
+            <option value="Diproses">Diproses</option>
+            <option value="Dalam Perjalanan">Dalam Perjalanan</option>
+            <option value="Terkirim">Terkirim</option>
+          </select>
+        </label>
+        <h3>Riwayat Perjalanan</h3>
+        <ol class="timeline">
+          <li v-for="(progress, index) in selectedOrder.perjalanan" :key="index">
+            <strong>{{ progress.waktu | waktuIndonesia }}</strong><span v-text="progress.keterangan"></span>
+          </li>
+        </ol>
+        <form @submit.prevent="addProgress">
+          <label>Tambah keterangan perjalanan
+            <input v-model.trim="newProgress" type="text" placeholder="Contoh: Paket tiba di gudang distribusi" @keydown.enter.prevent="addProgress">
+          </label>
+          <p class="hint">Waktu dicatat otomatis sesuai waktu lokal komputer.</p>
+          <p v-if="progressError" class="form-error" role="alert">{{ progressError }}</p>
+          <button type="submit" class="btn btn-primary">Tambah Progress</button>
+        </form>
+      </div>
+      <div v-else class="panel empty-state">Pilih DO dari daftar untuk melihat rincian dan riwayat pengiriman.</div>
+    </div>
+  </div>
+</script>

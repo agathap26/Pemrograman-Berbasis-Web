@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking DO - SITTA UT</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Tracking Delivery Order</h1>
+        <p>SITTA Universitas Terbuka</p>
+    </header>
+
+    <nav>
+        <a href="index.html">Menu Utama</a>
+        <a href="stok.html">Stok Bahan Ajar</a>
+        <a href="tracking.html" aria-current="page">Tracking DO</a>
+    </nav>
+
+    <main id="app">
+
+        <!-- Pencarian status pengiriman -->
+        <section>
+            <h2>Cek Status Pengiriman</h2>
+
+            <div class="search-row">
+                <label>Nomor Delivery Order
+                    <input v-model.trim="nomorCari"
+                           placeholder="Contoh: DO2025-0001"
+                           @keyup.enter="cariDO">
+                </label>
+
+                <button type="button" @click="cariDO">
+                    Cari DO
+                </button>
+            </div>
+
+            <p class="warning" v-if="pesanCari">
+                {{ pesanCari }}
+            </p>
+
+            <!-- Informasi tracking -->
+            <div v-if="hasilDO" class="result-box">
+                <h3>Informasi Pengiriman</h3>
+
+                <p><strong>Nomor DO:</strong> {{ hasilDO.nomor }}</p>
+                <p><strong>NIM:</strong> {{ hasilDO.nim }}</p>
+                <p><strong>Nama:</strong> {{ hasilDO.nama }}</p>
+                <p><strong>Status:</strong> {{ hasilDO.status }}</p>
+                <p><strong>Ekspedisi:</strong> {{ hasilDO.ekspedisi }}</p>
+                <p><strong>Tanggal Kirim:</strong> {{ hasilDO.tanggalKirim }}</p>
+                <p><strong>Paket:</strong> {{ hasilDO.paket }}</p>
+                <p><strong>Total:</strong> {{ rupiah(hasilDO.total) }}</p>
+
+                <h4>Riwayat Perjalanan</h4>
+
+                <ol>
+                    <li v-for="(item, index) in hasilDO.perjalanan"
+                        :key="index">
+                        {{ item.waktu }} - {{ item.keterangan }}
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Pembuatan Delivery Order baru -->
+        <section class="section-spaced">
+            <h2>Buat Delivery Order Baru</h2>
+            <p>Nomor DO akan dibuat otomatis saat pesanan disimpan.</p>
+
+            <p class="notice" v-show="pesanForm">
+                {{ pesanForm }}
+            </p>
+
+            <form @submit.prevent="buatDO">
+                <div class="form-grid">
+
+                    <label>NIM
+                        <input v-model.trim="formDO.nim"
+                               inputmode="numeric"
+                               required
+                               placeholder="Masukkan NIM">
+                    </label>
+
+                    <label>Nama Mahasiswa
+                        <input v-model.trim="formDO.nama"
+                               required
+                               placeholder="Nama lengkap">
+                    </label>
+
+                    <label>Ekspedisi
+                        <select v-model="formDO.pengiriman" required>
+                            <option value="">Pilih Ekspedisi</option>
+
+                            <option v-for="item in pengirimanList"
+                                    :key="item.kode"
+                                    :value="item.kode">
+                                JNE {{ item.nama }}
+                            </option>
+                        </select>
+                    </label>
+
+                    <label>Paket Bahan Ajar
+                        <select v-model="formDO.paket" required>
+                            <option value="">Pilih Paket</option>
+
+                            <option v-for="item in paket"
+                                    :key="item.kode"
+                                    :value="item.kode">
+                                {{ item.kode }} - {{ item.nama }}
+                            </option>
+                        </select>
+                    </label>
+
+                    <label>Tanggal Kirim
+                        <input type="date"
+                               v-model="formDO.tanggalKirim"
+                               required>
+                    </label>
+                </div>
+
+                <!-- Detail paket sesuai pilihan -->
+                <div v-if="paketTerpilih" class="detail-paket">
+                    <h3>Detail Paket</h3>
+
+                    <p><strong>Kode:</strong> {{ paketTerpilih.kode }}</p>
+                    <p><strong>Nama:</strong> {{ paketTerpilih.nama }}</p>
+
+                    <strong>Isi Paket:</strong>
+
+                    <ul>
+                        <li v-for="kode in paketTerpilih.isi"
+                            :key="kode">
+                            {{ kode }} - {{ namaMataKuliah(kode) }}
+                        </li>
+                    </ul>
+                </div>
+
+                <p class="total">
+                    <strong>Total Harga:</strong>
+                    {{ rupiah(totalHarga) }}
+                </p>
+
+                <button type="submit">
+                    Simpan Delivery Order
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <footer>Universitas Terbuka - Tugas Praktik 2</footer>
+
+    <!-- Library Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.min.js"></script>
+
+    <!-- Sumber data dosen -->
+    <script src="js/dataBahanAjar.js"></script>
+
+    <!-- Logika tracking -->
+    <script src="js/tracking-app.js"></script>
+</body>
+</html>

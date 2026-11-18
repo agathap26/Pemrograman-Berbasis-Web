@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SITTA UT | Tugas Praktik 3</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <div id="app" v-cloak>
+    <header class="site-header">
+      <div class="container header-row">
+        <div>
+          <p class="eyebrow">UNIVERSITAS TERBUKA</p>
+          <h1>SITTA - Sistem Bahan Ajar</h1>
+          <p class="header-subtitle">Aplikasi Stok, Pemesanan, dan Tracking Delivery Order</p>
+        </div>
+        <div class="header-label">Tugas Praktik 3<br><small>Vue.js Components & Templates</small></div>
+      </div>
+    </header>
+
+    <main class="container">
+      <nav class="main-tabs" aria-label="Navigasi utama">
+        <button type="button" :class="{ active: tab === 'stok' }" @click="tab = 'stok'">Stok Bahan Ajar</button>
+        <button type="button" :class="{ active: tab === 'tracking' }" @click="tab = 'tracking'">Tracking DO</button>
+        <button type="button" :class="{ active: tab === 'order' }" @click="tab = 'order'">Pemesanan / Buat DO</button>
+      </nav>
+
+      <div v-if="notice" class="notice" role="status">
+        <span v-text="notice"></span>
+        <button class="text-btn" type="button" @click="notice = ''">Tutup</button>
+      </div>
+
+      <section v-if="tab === 'stok'" aria-label="Halaman stok">
+        <ba-stock-table
+          :items="state.stok"
+          :upbjj-list="state.upbjjList"
+          :kategori-list="state.kategoriList"
+          @save-item="handleSaveStock"
+          @delete-item="handleDeleteStock">
+        </ba-stock-table>
+      </section>
+      <section v-else-if="tab === 'tracking'" aria-label="Halaman tracking">
+        <do-tracking
+          :orders="state.tracking"
+          :paket-list="state.paket"
+          :focus-do="lastCreatedDO"
+          @new-order="tab = 'order'"
+          @add-progress="handleAddProgress"
+          @update-status="handleUpdateStatus">
+        </do-tracking>
+      </section>
+      <section v-else aria-label="Halaman pemesanan">
+        <order-form
+          :orders="state.tracking"
+          :paket-list="state.paket"
+          :stok-list="state.stok"
+          :pengiriman-list="state.pengirimanList"
+          @created="handleCreateOrder">
+        </order-form>
+      </section>
+      <footer class="footer">
+        <span>Data awal: data/dataBahanAjar.json. Perubahan tersimpan di browser (localStorage).</span>
+        <button type="button" class="text-btn" @click="resetDemo">Reset ke data JSON awal</button>
+      </footer>
+    </main>
+  </div>
+
+  <div id="boot-error" class="boot-error" hidden></div>
+
+  <!-- Vue 2.7.14 digunakan karena sesuai contoh Vue.component pada soal. -->
+  <script src="assets/js/vue.js"></script>
+  <!-- Urutan penting: service -> komponen -> aplikasi root. -->
+  <script src="js/services/api.js"></script>
+  <script src="js/components/status-badge.js"></script>
+  <script src="js/components/app-modal.js"></script>
+  <script src="js/components/stock-table.js"></script>
+  <script src="js/components/do-tracking.js"></script>
+  <script src="js/components/order-form.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<script type="text/x-template" id="tpl-order">
+  <div>
+    <div class="section-heading"><div><h2>Pemesanan / Buat Delivery Order</h2>
+      <p>Isi formulir, pilih paket dan ekspedisi, lalu buat nomor DO otomatis.</p></div></div>
+    <div class="panel order-panel">
+      <div class="do-preview"><span>Nomor DO berikutnya</span><strong v-text="generatedDO"></strong></div>
+      <form @submit.prevent="submitOrder" @keydown.enter.prevent="submitOrder">
+        <div class="form-grid">
+          <label>NIM *<input v-model.trim="form.nim" inputmode="numeric" type="text" maxlength="12" placeholder="Contoh: 123456789"></label>
+          <label>Nama mahasiswa *<input v-model.trim="form.nama" type="text" placeholder="Nama lengkap"></label>
+          <label>Ekspedisi *
+            <select v-model="form.ekspedisiKode">
+              <option value="">Pilih layanan</option>
+              <option v-for="service in pengirimanList" :key="service.kode" :value="service.kode">
+                {{ expeditionLabel(service) }} — {{ service.nama }}
+              </option>
+            </select>
+          </label>
+          <label>Paket Bahan Ajar *
+            <select v-model="form.paket">
+              <option value="">Pilih paket</option>
+              <option v-for="item in paketList" :key="item.kode" :value="item.kode">{{ item.kode }} — {{ item.nama }}</option>
+            </select>
+          </label>
+          <label>Tanggal Kirim *<input v-model="form.tanggalKirim" type="date"></label>
+          <label>Total Harga (otomatis)<input :value="totalPrice | rupiah" type="text" readonly></label>
+        </div>
+        <div v-show="!!selectedPackage" class="package-preview">
+          <h3>Isi Paket Bahan Ajar</h3>
+          <p v-if="selectedPackage"><strong>{{ selectedPackage.kode }} — {{ selectedPackage.nama }}</strong></p>
+          <ul>
+            <li v-for="item in packageDetails" :key="item.kode">{{ item.kode }} — {{ item.judul }}</li>
+          </ul>
+          <p v-if="selectedPackage"><strong>Total: {{ totalPrice | rupiah }}</strong></p>
+        </div>
+        <p v-if="formError" class="form-error" role="alert" v-text="formError"></p>
+        <div class="actions"><button type="submit" class="btn btn-primary">Simpan DO (atau Enter)</button></div>
+      </form>
+    </div>
+    <div class="panel tips"><h3>Setelah disimpan</h3>
+      <p>Data otomatis masuk ke tab <strong>Tracking DO</strong> dan dapat ditemukan dengan nomor DO atau NIM. Data ini hanya simulasi (JSON + localStorage), bukan database server.</p>
+    </div>
+  </div>
+</script>
